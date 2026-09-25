@@ -1,47 +1,26 @@
-import { DatabaseConnect } from './DatabaseConnect'
-
 type SidebarProps = {
-  databaseUrl: string
-  onDatabaseUrlChange: (value: string) => void
-  onConnect: () => void
-  status: string
-  databaseId: string
-  onDatabaseIdChange: (value: string) => void
-}
+  onNewChat: () => void;
+};
 
-export function Sidebar({
-  databaseUrl,
-  onDatabaseUrlChange,
-  onConnect,
-  status,
-  databaseId,
-  onDatabaseIdChange,
-}: SidebarProps) {
+export function Sidebar({ onNewChat }: SidebarProps) {
   return (
-    <aside className="rounded-2xl border border-slate-800 bg-slate-900/80 p-5 shadow-2xl shadow-slate-950/30">
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-slate-100">Database</h2>
+    <aside className="w-72 border-r border-slate-800 bg-slate-900/80 p-4">
+      <div className="mb-6 flex items-center gap-3">
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-cyan-500/20 text-sm font-bold text-cyan-300">
+          SQL
+        </div>
+        <div>
+          <h2 className="text-lg font-semibold text-slate-100">SQL Agent</h2>
+        </div>
       </div>
 
-      <DatabaseConnect
-        databaseUrl={databaseUrl}
-        onDatabaseUrlChange={onDatabaseUrlChange}
-        onConnect={onConnect}
-        status={status}
-      />
-
-      <div className="mt-6">
-        <label htmlFor="database-id" className="mb-2 block text-xs uppercase tracking-[0.2em] text-slate-400">
-          Database ID
-        </label>
-        <input
-          id="database-id"
-          value={databaseId}
-          onChange={(event) => onDatabaseIdChange(event.target.value)}
-          placeholder="Connected database ID"
-          className="w-full rounded-xl border border-slate-700 bg-slate-950/80 px-3 py-3 text-sm text-slate-100 outline-none transition focus:border-cyan-500"
-        />
-      </div>
+      <button
+        type="button"
+        onClick={onNewChat}
+        className="w-full rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-left text-sm font-medium text-slate-100 transition hover:border-cyan-500/40 hover:bg-slate-800/90"
+      >
+        New Chat
+      </button>
     </aside>
-  )
+  );
 }

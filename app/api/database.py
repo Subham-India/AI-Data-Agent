@@ -32,8 +32,8 @@ def connect(request: DatabaseConnectionRequest):
 
         return DatabaseConnectionResponse(
             success=True,
-            message=f"Database connected successfully. "
-                    f"Database ID: {database_id}",
+            database_id=database_id,
+            message="Database connected successfully",
         )
 
     except ValueError as error:

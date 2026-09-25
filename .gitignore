@@ -12,7 +12,15 @@ env/
 # Environment variables and secrets
 .env
 .env.*
+frontend/.env
+frontend/.env.*
 !.env.example
+!frontend/.env.example
+
+# Secret material
+*.pem
+*.key
+*.crt
 
 # IDE/editor files
 .vscode/

@@ -1,31 +1,82 @@
-type ChatMessage = {
-  id: string
-  role: 'user' | 'assistant'
-  content: string
+import ReactMarkdown from "react-markdown";
+import type { ChatMessage } from "../types/chat";
+
+interface ChatMessagesProps {
+  messages: ChatMessage[];
+  loading: boolean;
 }
 
-type ChatMessagesProps = {
-  messages: ChatMessage[]
-}
+function ChatMessages({
+  messages,
+  loading,
+}: ChatMessagesProps) {
+  if (messages.length === 0) {
+    return (
+      <div className="flex-1 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold text-white">
+            Ask your database anything
+          </h2>
 
-export function ChatMessages({ messages }: ChatMessagesProps) {
-  return (
-    <div className="flex-1 space-y-4 overflow-y-auto p-5">
-      {messages.map((message) => (
-        <div
-          key={message.id}
-          className={`max-w-[85%] rounded-2xl border px-4 py-3 text-sm leading-7 ${
-            message.role === 'user'
-              ? 'ml-auto border-cyan-500/30 bg-cyan-500/10 text-cyan-50'
-              : 'border-slate-700 bg-slate-800/80 text-slate-100'
-          }`}
-        >
-          <div className="mb-1 text-[10px] uppercase tracking-[0.2em] text-slate-400">
-            {message.role === 'user' ? 'You' : 'Agent'}
-          </div>
-          <pre className="whitespace-pre-wrap font-sans">{message.content}</pre>
+          <p className="text-gray-400 mt-2">
+            Ask questions about your customers, orders,
+            products, and more.
+          </p>
         </div>
-      ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex-1 overflow-y-auto px-6 py-6">
+      <div className="max-w-4xl mx-auto">
+
+        {messages.map((message) => {
+          const isUser = message.role === "user";
+
+          return (
+            <div
+              key={message.id}
+              className={`flex mb-6 ${
+                isUser
+                  ? "justify-end"
+                  : "justify-start"
+              }`}
+            >
+              <div
+                className={`max-w-3xl px-4 py-3 rounded-2xl ${
+                  isUser
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-800 text-gray-100"
+                }`}
+              >
+                {isUser ? (
+                  <p className="whitespace-pre-wrap">
+                    {message.content}
+                  </p>
+                ) : (
+                  <div className="prose prose-invert max-w-none">
+                    <ReactMarkdown>
+                      {message.content}
+                    </ReactMarkdown>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+
+        {loading && (
+          <div className="flex justify-start mb-6">
+            <div className="bg-gray-800 text-gray-400 px-4 py-3 rounded-2xl">
+              Thinking...
+            </div>
+          </div>
+        )}
+
+      </div>
     </div>
-  )
+  );
 }
+
+export default ChatMessages;

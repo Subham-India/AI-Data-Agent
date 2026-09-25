@@ -10,4 +10,5 @@ class DatabaseConnectionRequest(BaseModel):
 
 class DatabaseConnectionResponse(BaseModel):
     success: bool
+    database_id: str
     message: str
